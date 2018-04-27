@@ -1,0 +1,5 @@
+---
+# tasks file for DDST Domain
+- import_tasks: postweblogic11g.yml 
+- import_tasks: ddstpostval.yml
+

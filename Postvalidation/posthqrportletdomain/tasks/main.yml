@@ -1,0 +1,5 @@
+---
+# tasks file for ucmdomain
+- import_tasks: postweblogic11g.yml 
+- import_tasks: hqrportletpostval.yml
+

@@ -1,0 +1,5 @@
+---
+# tasks file for srvdomain
+- import_tasks: postweblogic11g.yml 
+- import_tasks: srvpostval.yml
+

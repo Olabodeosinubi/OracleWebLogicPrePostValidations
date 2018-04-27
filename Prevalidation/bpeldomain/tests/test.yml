@@ -1,0 +1,14 @@
+---
+- hosts: CPSOADomain
+  become: true
+  
+  tasks:
+
+- name: Remove Prevalidations Directory
+  file: path=/export/app_repo/ansible_logs/prevalidations state=absent
+
+- name: Remove Postvalidations Directory
+  file: path=/export/app_repo/ansible_logs/postvalidations state=absent
+  
+- name: Remove Diffvals Directory
+  file: path=/export/app_repo/ansible_logs/diffvals state=absent

@@ -1,0 +1,31 @@
+---
+# OSBDOMAIN DIFF
+- name: Temp CommPatchApp
+  shell: cat {{ComPatchApplied_tmp_log}}osbpre_*_compatchapplied.tmp.log > {{ComPatchApplied_tmp_log}}osbpre_compatchapplied.fnl.log;cat {{PostComPatchApplied_tmp_log}}osbpost_*_compatchapplied.tmp.log > {{PostComPatchApplied_tmp_log}}osbpost_compatchapplied.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp OPatch Version
+  shell: cat {{OPatchVersion_tmp_log}}osbpre_*_opatchversion.tmp.log > {{OPatchVersion_tmp_log}}osbpre_opatchversion.fnl.log;cat {{PostOPatchVersion_tmp_log}}osbpost_*_opatchversion.tmp.log > {{PostOPatchVersion_tmp_log}}osbpost_opatchversion.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+
+- name: Temp Weblogic Version
+  shell: cat {{WeblogicVersion_tmp_log}}osbpre_*_weblogicversion.tmp.log > {{WeblogicVersion_tmp_log}}osbpre_weblogicversion.fnl.log;cat {{PostWeblogicVersion_tmp_log}}osbpost_*_weblogicversion.tmp.log > {{PostWeblogicVersion_tmp_log}}osbpost_weblogicversion.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp Mount Point
+  shell: cat {{mountPoint_tmp_log}}osbpre_*_mountpoint.tmp.log > {{mountPoint_tmp_log}}osbpre_mountpoint.fnl.log;cat {{PostmountPoint_tmp_log}}osbpost_*_mountpoint.tmp.log > {{PostmountPoint_tmp_log}}osbpost_mountpoint.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp PatchApp 
+  shell: cat {{PatchApplied_tmp_log}}osbpre_*_patchapplied.tmp.log > {{PatchApplied_tmp_log}}osbpre_patchapplied.fnl.log;cat {{PostPatchApplied_tmp_log}}osbpost_*_patchapplied.tmp.log > {{PostPatchApplied_tmp_log}}osbpost_patchapplied.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false 

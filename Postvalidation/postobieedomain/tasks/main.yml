@@ -1,0 +1,4 @@
+---
+# tasks file for obieedomain
+- import_tasks: postweblogic11g.yml 
+- import_tasks: obieepostval.yml

@@ -1,0 +1,6 @@
+#---
+#- hosts: cpsoadomain
+#  become: true
+  
+#  roles:
+#    - cpsoadomain

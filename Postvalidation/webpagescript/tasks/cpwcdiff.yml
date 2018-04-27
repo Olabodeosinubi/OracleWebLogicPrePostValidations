@@ -1,0 +1,31 @@
+---
+# CPWCDOMAIN DIFF
+- name: Temp CommPatchApp
+  shell: cat {{ComPatchApplied_tmp_log}}cpwcpre_*_compatchapplied.tmp.log > {{ComPatchApplied_tmp_log}}cpwcpre_compatchapplied.fnl.log;cat {{PostComPatchApplied_tmp_log}}cpwcpost_*_compatchapplied.tmp.log > {{PostComPatchApplied_tmp_log}}cpwcpost_compatchapplied.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp OPatch Version
+  shell: cat {{OPatchVersion_tmp_log}}cpwcpre_*_opatchversion.tmp.log > {{OPatchVersion_tmp_log}}cpwcpre_opatchversion.fnl.log;cat {{PostOPatchVersion_tmp_log}}cpwcpost_*_opatchversion.tmp.log > {{PostOPatchVersion_tmp_log}}cpwcpost_opatchversion.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+
+- name: Temp Weblogic Version
+  shell: cat {{WeblogicVersion_tmp_log}}cpwcpre_*_weblogicversion.tmp.log > {{WeblogicVersion_tmp_log}}cpwcpre_weblogicversion.fnl.log;cat {{PostWeblogicVersion_tmp_log}}cpwcpost_*_weblogicversion.tmp.log > {{PostWeblogicVersion_tmp_log}}cpwcpost_weblogicversion.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp Mount Point
+  shell: cat {{mountPoint_tmp_log}}cpwcpre_*_mountpoint.tmp.log > {{mountPoint_tmp_log}}cpwcpre_mountpoint.fnl.log;cat {{PostmountPoint_tmp_log}}cpwcpost_*_mountpoint.tmp.log > {{PostmountPoint_tmp_log}}cpwcpost_mountpoint.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp PatchApp 
+  shell: cat {{PatchApplied_tmp_log}}cpwcpre_*_patchapplied.tmp.log > {{PatchApplied_tmp_log}}cpwcpre_patchapplied.fnl.log;cat {{PostPatchApplied_tmp_log}}cpwcpost_*_patchapplied.tmp.log > {{PostPatchApplied_tmp_log}}cpwcpost_patchapplied.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false 

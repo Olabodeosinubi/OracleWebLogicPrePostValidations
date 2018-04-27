@@ -1,0 +1,4 @@
+---
+# tasks file for cpsoadomai
+- import_tasks: preweblogic11g.yml 
+- import_tasks: esportletpreval.yml

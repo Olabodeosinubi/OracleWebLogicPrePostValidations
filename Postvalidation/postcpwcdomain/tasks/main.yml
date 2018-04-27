@@ -1,0 +1,7 @@
+---
+# tasks file for postcpwcdomain
+- import_tasks: postweblogic11g.yml
+- import_tasks: soapostval.yml
+- import_tasks: wccpostval.yml
+- import_tasks: wcppostval.yml
+

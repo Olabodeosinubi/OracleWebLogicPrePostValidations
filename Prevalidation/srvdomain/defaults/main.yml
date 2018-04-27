@@ -1,0 +1,16 @@
+---
+# defaults file for CPSOADomain
+ComPatchApplied_log: /export/app_repo/ansible_logs/prevalidations/
+PatchApplied_log: /export/app_repo/ansible_logs/prevalidations/
+ORAHOMEsize_log: /export/app_repo/ansible_logs/prevalidations/
+AppProcess_log: /export/app_repo/ansible_logs/prevalidations/
+freedisk_log:  /export/app_repo/ansible_logs/prevalidations/
+usedisk_log: /export/app_repo/ansible_logs/prevalidations/
+OPatchVersion_log: /export/app_repo/ansible_logs/prevalidations/
+JavaVersion_log: /export/app_repo/ansible_logs/prevalidations/
+mountPoint_log: /export/app_repo/ansible_logs/prevalidations/
+WeblogicVersion_log: /export/app_repo/ansible_logs/prevalidations/
+BSUJavaParameter_log: /export/app_repo/ansible_logs/prevalidations/
+WLHOMEsize_log: /export/app_repo/ansible_logs/prevalidations/
+fstabcontent_log: /export/app_repo/ansible_logs/prevalidations/
+

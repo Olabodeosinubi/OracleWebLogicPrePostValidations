@@ -1,0 +1,7 @@
+---
+# tasks file for cpwcdomain
+- import_tasks: preweblogic11g.yml
+- import_tasks: soapreval.yml
+- import_tasks: wccpreval.yml
+- import_tasks: wcppreval.yml
+

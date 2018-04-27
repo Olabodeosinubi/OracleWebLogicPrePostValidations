@@ -1,0 +1,19 @@
+---
+# Webpage And Send-Mail Ansible Playbook
+- name: Diff Webpage Script
+  shell: /export/app_repo/ansible_logs/scripts/webpage.sh
+  ignore_errors: yes  
+  changed_when: false
+
+- name: Send Email
+  mail:
+    host: mailrelay.sdps.org
+    port: 25
+    subject: DIFF for TEA ITF Inventory
+    body: "Hello all, the TEA ITF Domains Diff log link http://vqnpmt34:9999/validations/index.html"
+    to: jay.allen@ventech.hcqis.org,
+        HCQIS-Ops-Middleware@HCQIS.ORG     
+    from: ansible@ventech.hcqis.org
+    subtype: html
+  delegate_to: localhost
+  become: no

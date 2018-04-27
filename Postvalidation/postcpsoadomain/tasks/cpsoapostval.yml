@@ -1,0 +1,93 @@
+---
+# CPSOA Postvalidation Playbook
+
+- name: Check Current OPatch Version
+  shell: echo "host:"$(hostname) >> {{PostOPatchVersion_log}};export ORACLE_HOME=/app/ENP/fmw1036/Oracle_SOA1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;opatch version >> {{PostOPatchVersion_log}}cpsoa_$(hostname)_opatchversion.log
+  
+- name: Check Current OPatch Version
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_SOA1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;opatch version
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Check ORACLE_HOME size
+  shell: echo "host:"$(hostname) >> {{PostORAHOMEsize_log}};export ORACLE_HOME=/app/ENP/fmw1036/Domains/CPSOADomain;du -sh $ORACLE_HOME >> {{PostORAHOMEsize_log}}cpsoa_$(hostname)_orahomesize.log
+ 
+- name: Check ORACLE_HOME size
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Domains/CPSOADomain;du -sh $ORACLE_HOME
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Patch Applied
+  shell: echo "host:"$(hostname) >> {{PostPatchApplied_log}};export ORACLE_HOME=/app/ENP/fmw1036/Oracle_SOA1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc >> {{PostPatchApplied_log}}cpsoa_$(hostname)_patchapplied.log
+  
+- name: Current Patch Applied
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_SOA1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_log}};export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied >> {{PostComPatchApplied_log}}cpsoa_$(hostname)_compatchapplied.log
+ 
+- name: Current Common Patch Applied
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Diffvals Directory State
+  file: path=/export/app_repo/ansible_logs/diffvals/ state=directory
+
+- name: Diff OPatch Version
+  shell: echo "host:"$(hostname) >> {{OPatchVersion_tmp_log}}cpsoapre_$(hostname)_opatchversion.tmp.log;grep "^OPatch Version" {{OPatchVersion_log}}cpsoa_$(hostname)_opatchversion.log >> {{OPatchVersion_tmp_log}}cpsoapre_$(hostname)_opatchversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff OPatch Version
+  shell: echo "host:"$(hostname) >> {{PostOPatchVersion_tmp_log}}cpsoapost_$(hostname)_opatchversion.tmp.log;grep "^OPatch Version" {{PostOPatchVersion_log}}cpsoa_$(hostname)_opatchversion.log >> {{PostOPatchVersion_tmp_log}}cpsoapost_$(hostname)_opatchversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false   
+
+- name: Diff Patch Applied
+  shell: echo "host:"$(hostname) >> {{PatchApplied_tmp_log}}cpsoapre_$(hostname)_patchapplied.tmp.log;grep "^OUI version" {{PatchApplied_log}}cpsoa_$(hostname)_patchapplied.log >> {{PatchApplied_tmp_log}}cpsoapre_$(hostname)_patchapplied.tmp.log;grep "^Unique Patch ID" {{PatchApplied_log}}cpsoa_$(hostname)_patchapplied.log >> {{PatchApplied_tmp_log}}cpsoapre_$(hostname)_patchapplied.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Patch Applied
+  shell: echo "host:"$(hostname) >> {{PostPatchApplied_tmp_log}}cpsoapost_$(hostname)_patchapplied.tmp.log;grep "^OUI version" {{PostPatchApplied_log}}cpsoa_$(hostname)_patchapplied.log >> {{PostPatchApplied_tmp_log}}cpsoapost_$(hostname)_patchapplied.tmp.log;grep "^Unique Patch ID" {{PostPatchApplied_log}}cpsoa_$(hostname)_patchapplied.log >> {{PostPatchApplied_tmp_log}}cpsoapost_$(hostname)_patchapplied.tmp.log
+  ignore_errors: yes  
+  changed_when: false  
+  
+- name: Diff Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{ComPatchApplied_tmp_log}}cpsoapre_$(hostname)_compatchapplied.tmp.log;grep "^Patch" {{ComPatchApplied_log}}cpsoa_$(hostname)_compatchapplied.log >> {{ComPatchApplied_tmp_log}}cpsoapre_$(hostname)_compatchapplied.tmp.log
+  ignore_errors: yes
+  changed_when: false
+  
+- name: Diff Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_tmp_log}}cpsoapost_$(hostname)_compatchapplied.tmp.log;grep "^Patch" {{PostComPatchApplied_log}}cpsoa_$(hostname)_compatchapplied.log >> {{PostComPatchApplied_tmp_log}}cpsoapost_$(hostname)_compatchapplied.tmp.log
+  ignore_errors: yes
+  changed_when: false  
+  
+- name: Diff Weblogic Version
+  shell: echo "host:"$(hostname) >> {{WeblogicVersion_tmp_log}}cpsoapre_$(hostname)_weblogicversion.tmp.log;grep "^WebLogic Server" {{WeblogicVersion_log}}cpsoa_$(hostname)_weblogicversion.log >> {{WeblogicVersion_tmp_log}}cpsoapre_$(hostname)_weblogicversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Weblogic Version
+  shell: echo "host:"$(hostname) >> {{PostWeblogicVersion_tmp_log}}cpsoapost_$(hostname)_weblogicversion.tmp.log;grep "^WebLogic Server" {{PostWeblogicVersion_log}}cpsoa_$(hostname)_weblogicversion.log >> {{PostWeblogicVersion_tmp_log}}cpsoapost_$(hostname)_weblogicversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false  
+  
+- name: Diff Mount Point
+  shell: echo "host:"$(hostname) >> {{mountPoint_tmp_log}}cpsoapre_$(hostname)_mountpoint.tmp.log;cat {{mountPoint_log}}cpsoa_$(hostname)_mountpoint.log >> {{mountPoint_tmp_log}}cpsoapre_$(hostname)_mountpoint.tmp.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Mount Point
+  shell: echo "host:"$(hostname) >> {{PostmountPoint_tmp_log}}cpsoapost_$(hostname)_mountpoint.tmp.log;cat {{PostmountPoint_log}}cpsoa_$(hostname)_mountpoint.log >> {{PostmountPoint_tmp_log}}cpsoapost_$(hostname)_mountpoint.tmp.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false  

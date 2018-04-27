@@ -1,0 +1,4 @@
+---
+# tasks file for DDST
+- import_tasks: preweblogic11g.yml 
+- import_tasks: ddstpreval.yml

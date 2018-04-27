@@ -1,0 +1,85 @@
+---
+# Postvalihrwlstion Weblogic11g Playbook
+  
+- name: Vfstab content
+  shell: echo "host:"$(hostname) >> {{Postfstabcontent_log}};cat /etc/vfstab >> {{Postfstabcontent_log}}hrwls_$(hostname)_fstabcontent.log
+  become: true
+    
+- name: Vfstab content
+  shell: cat /etc/vfstab
+  become: true  
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Free Disk Space
+  shell: echo "host:"$(hostname) >> {{Postfreedisk_log}};df -P1|grep '^/dev'|awk '{print $6, 100 - $5}'|sed 's/%//' >> {{Postfreedisk_log}}hrwls_$(hostname)_freediskspace.log
+    
+- name: Free Disk Space
+  shell: echo $(hostname) for $(hrwlste);df -P  
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Used Disk Space
+  shell: echo "host:"$(hostname) >> {{Postusedisk_log}};df -h | grep -vE 'Filesystem|tmpfs|boot' | awk '{print $4 " " $5}' | while read output; do echo $output; usep=$(echo $output | awk '{ print $1}' | cut -d'%' -f1  ); partition=$(echo $output | awk '{ print $2 }' ); if [ "$usep" -ge "75" ]; then echo "Running out of space \"$partition ($usep%)\" on $(hostname) as on $(hrwlste)" | mailx -s Alert_Space  hcqis-ops-middleware@hcqis.org;  fi; done >> {{Postusedisk_log}}hrwls_$(hostname)_usediskspace.log
+    
+- name: Disk Space (Filesystem/Size)
+  shell: echo $(hostname) for $(hrwlste);df -h
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Mount Point
+  shell: echo "host:"$(hostname) >> {{PostmountPoint_log}};/usr/sbin/mount >> {{PostmountPoint_log}}hrwls_$(hostname)_mountpoint.log
+    
+- name: Mount Point
+  shell: echo $(hostname) for $(hrwlste);/usr/sbin/mount
+  register: ps
+  
+- debug: var=ps.stdout_lines   
+
+- name: Check Current Java Version
+  shell: echo "host:"$(hostname) >> {{PostJavaVersion_log}};/app/ENP/jdk/jdk_current/bin/java -version 2>&1 >> {{PostJavaVersion_log}}hrwls_$(hostname)_javaversion.log
+    
+- name: Check Current Java Version
+  shell: echo $(hostname) for $(hrwlste);/app/ENP/jdk/jdk_current/bin/java -version 2>&1
+  register: ps
+    
+- debug: var=ps.stdout_lines
+
+- name: Check Current Weblogic Version
+  shell: echo "host:"$(hostname) >> {{PostWeblogicVersion_log}};export MW_HOME=/app/ENP/fmw1036;export WL_HOME=$MW_HOME/wlserver_10.3;cd $WL_HOME/server/lib;/app/ENP/jdk/jdk_current/bin/java -cp weblogic.jar weblogic.version 2>&1 >> {{PostWeblogicVersion_log}}hrwls_$(hostname)_weblogicversion.log
+    
+- name: Check Current Weblogic Version
+  shell: echo $(hostname) for $(hrwlste);export MW_HOME=/app/ENP/fmw1036;export WL_HOME=$MW_HOME/wlserver_10.3;cd $WL_HOME/server/lib;/app/ENP/jdk/jdk_current/bin/java -cp weblogic.jar weblogic.version 2>&1
+  register: ps
+    
+- debug: var=ps.stdout_lines
+
+- name: Check BSU Java Parameter
+  shell: echo "host:"$(hostname) >> {{PostBSUJavaParameter_log}};export MW_HOME=/app/ENP/fmw1036;grep Xm $MW_HOME/utils/bsu/bsu.sh >> {{PostBSUJavaParameter_log}}hrwls_$(hostname)_bsujavaparameter.log
+    
+- name: Check BSU Java Parameter
+  shell: echo $(hostname) for $(hrwlste);export MW_HOME=/app/ENP/fmw1036;grep Xm $MW_HOME/utils/bsu/bsu.sh
+  register: ps
+    
+- debug: var=ps.stdout_lines
+
+- name: Check WL_HOME size
+  shell: echo "host:"$(hostname) >> {{PostWLHOMEsize_log}};export WL_HOME=/app/ENP/fmw1036/wlserver_10.3;du -sh $WL_HOME >> {{PostWLHOMEsize_log}}hrwls_$(hostname)_wlhomesize.log
+    
+- name: Check WL_HOME size
+  shell: echo $(hostname) for $(hrwlste);export WL_HOME=/app/ENP/fmw1036/wlserver_10.3;du -sh $WL_HOME
+  register: ps
+   
+- debug: var=ps.stdout_lines
+
+- name: Current State of Running Applications Process
+  shell: echo "host:"$(hostname) >> {{PostAppProcess_log}};ps -ef | grep ora >> {{PostAppProcess_log}}hrwls_$(hostname)_appprocess.log
+    
+- name: Current State of Running Applications Process
+  shell: echo $(hostname) for $(hrwlste);ps -ef | grep ora
+  register: ps
+  
+- debug: var=ps.stdout_lines

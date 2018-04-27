@@ -1,0 +1,6 @@
+#---
+#- hosts: osbdomain
+#  become: true
+  
+#  roles:
+#    - osbdomain

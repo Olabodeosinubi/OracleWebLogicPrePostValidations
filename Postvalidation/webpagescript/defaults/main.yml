@@ -1,0 +1,12 @@
+---
+# defaults 
+OPatchVersion_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+PostOPatchVersion_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+PatchApplied_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+PostPatchApplied_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+ComPatchApplied_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+PostComPatchApplied_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+WeblogicVersion_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+PostWeblogicVersion_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+mountPoint_tmp_log: /export/app_repo/ansible_logs/postvalidations/
+PostmountPoint_tmp_log: /export/app_repo/ansible_logs/postvalidations/

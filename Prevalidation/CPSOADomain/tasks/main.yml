@@ -1,0 +1,9 @@
+---
+# tasks file for cpsoadomai
+- import_tasks: preweblogic11g.yml 
+- import_tasks: cpsoapreval.yml
+#- import_tasks: obieepreval.yml
+#- import_tasks: osbpreval.yml
+#- import_tasks: soapreval. yml
+#- import_tasks: wccpreval.yml
+#- import_tasks: wcppreval.yml

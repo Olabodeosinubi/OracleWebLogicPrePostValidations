@@ -1,0 +1,80 @@
+- hosts: CPSOADomain
+  become: true
+  roles:
+   - postcpsoadomain
+   
+- hosts: CPWCDomain
+  become: true
+  roles:
+   - postcpwcdomain
+   
+- hosts: OBIEEDomain
+  become: true
+  roles:
+   - postobieedomain
+   
+- hosts: OSBDomain
+  become: true
+  roles:
+   - postosbdomain
+   
+- hosts: UCMDomain
+  become: true
+  roles:
+   - postucmdomain
+
+- hosts: DADomain
+  become: true
+  roles:
+   - postdadomain 
+
+- hosts: DEADomain
+  become: true
+  roles:
+   - postdeadomain
+
+- hosts: DDSTDomain
+  become: true
+  roles:
+   - postddstdomain
+   
+- hosts: ESPortletDomain
+  become: true
+  roles:
+   - postesportletdomain
+   
+- hosts: HQRPortletDomain
+  become: true
+  roles:
+   - posthqrportletdomain
+   
+- hosts: HRWLS1Domain
+  become: true
+  roles:
+   - posthrwlsdomain
+   
+- hosts: QIPPorletDomain
+  become: true
+  roles:
+   - postqipportletdomain
+   
+- hosts: RTDADomain
+  become: true
+  roles:
+   - postrtdadomain
+   
+- hosts: SRVDomain
+  become: true
+  roles:
+   - postsrvdomain
+   
+- hosts: BPELDomain
+  become: true
+  roles:
+   - postbpeldomain
+   
+# Domain information should be added before this  
+- hosts: itcpap302a
+  become: true
+  roles:
+   - webpagescript  

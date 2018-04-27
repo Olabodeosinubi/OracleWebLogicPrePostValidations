@@ -1,0 +1,38 @@
+---
+# Middleware WCC Postvalidation Playbook
+  
+- name: Check Current OPatch Version (WCC)
+  shell: echo "host:"$(hostname) >> {{PostOPatchVersion_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_ECM1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch version >> {{PostOPatchVersion_log}}cpwcwcc_$(hostname)_opatchversion.log
+  
+- name: Check Current OPatch Version (WCC)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_ECM1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch version
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Check ORACLE_HOME size (WCC)
+  shell: echo "host:"$(hostname) >> {{PostORAHOMEsize_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_ECM1;du -sh $ORACLE_HOME >> {{PostORAHOMEsize_log}}cpwcwcc_$(hostname)_opatchversion.log
+
+- name: Check ORACLE_HOME size (WCC)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_ECM1;du -sh $ORACLE_HOME
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Patch Applied (WCC)
+  shell: echo "host:"$(hostname) >> {{PostPatchApplied_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_ECM1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc >> {{PostPatchApplied_log}}cpwcwcc_$(hostname)_opatchversion.log
+
+- name: Current Patch Applied (WCC)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_ECM1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc 
+  register: ps
+  
+- debug: var=ps.stdout_lines
+
+- name: Current Common Patch Applied (WCC)
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied >> {{PostComPatchApplied_log}}cpwcwcc_$(hostname)_opatchversion.log
+
+- name: Current Common Patch Applied (WCC)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied
+  register: ps
+
+- debug: var=ps.stdout_lines

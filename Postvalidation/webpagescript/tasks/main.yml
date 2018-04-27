@@ -1,0 +1,19 @@
+---
+# tasks file for Webpage
+- import_tasks: cpsoadiff.yml
+- import_tasks: cpwcdiff.yml
+- import_tasks: obieediff.yml
+- import_tasks: osbdiff.yml
+- import_tasks: ucmdiff.yml
+- import_tasks: dadiff.yml
+- import_tasks: bpeldiff.yml
+- import_tasks: ddstdiff.yml
+- import_tasks: esportletdiff.yml
+- import_tasks: hqrportletdiff.yml
+- import_tasks: qipportletdiff.yml
+- import_tasks: deadiff.yml
+- import_tasks: srvdiff.yml
+- import_tasks: rtdadiff.yml
+- import_tasks: hrwlsdiff.yml
+# This will be the last line ,Add domains before this
+- import_tasks: diffwebpage.yml

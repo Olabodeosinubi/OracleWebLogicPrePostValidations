@@ -1,0 +1,52 @@
+---
+# hrwls Postvalihrwlstion Playbook
+
+- name: Check ORACLE_HOME size
+  shell: echo "host:"$(hostname) >> {{PostORAHOMEsize_log}};export ORACLE_HOME=/app/ENP/fmw1036/Domains/HRWLS1Domain;du -sh $ORACLE_HOME >> {{PostORAHOMEsize_log}}hrwls_$(hostname)_orahomesize.log
+ 
+- name: Check ORACLE_HOME size
+  shell: echo $(hostname) for $(hrwlste);export ORACLE_HOME=/app/ENP/fmw1036/Domains/HRWLS1Domain;du -sh $ORACLE_HOME
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_log}};export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied >> {{PostComPatchApplied_log}}hrwls_$(hostname)_compatchapplied.log
+ 
+- name: Current Common Patch Applied
+  shell: echo $(hostname) for $(hrwlste);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Diff Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{ComPatchApplied_tmp_log}}hrwlspre_$(hostname)_compatchapplied.tmp.log;grep "^Patch" {{ComPatchApplied_log}}hrwls_$(hostname)_compatchapplied.log >> {{ComPatchApplied_tmp_log}}hrwlspre_$(hostname)_compatchapplied.tmp.log
+  ignore_errors: yes
+  changed_when: false
+  
+- name: Diff Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_tmp_log}}hrwlspost_$(hostname)_compatchapplied.tmp.log;grep "^Patch" {{PostComPatchApplied_log}}hrwls_$(hostname)_compatchapplied.log >> {{PostComPatchApplied_tmp_log}}hrwlspost_$(hostname)_compatchapplied.tmp.log
+  ignore_errors: yes
+  changed_when: false  
+  
+- name: Diff Weblogic Version
+  shell: echo "host:"$(hostname) >> {{WeblogicVersion_tmp_log}}hrwlspre_$(hostname)_weblogicversion.tmp.log;grep "^WebLogic Server" {{WeblogicVersion_log}}hrwls_$(hostname)_weblogicversion.log >> {{WeblogicVersion_tmp_log}}hrwlspre_$(hostname)_weblogicversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Weblogic Version
+  shell: echo "host:"$(hostname) >> {{PostWeblogicVersion_tmp_log}}hrwlspost_$(hostname)_weblogicversion.tmp.log;grep "^WebLogic Server" {{PostWeblogicVersion_log}}hrwls_$(hostname)_weblogicversion.log >> {{PostWeblogicVersion_tmp_log}}hrwlspost_$(hostname)_weblogicversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false  
+  
+- name: Diff Mount Point
+  shell: echo "host:"$(hostname) >> {{mountPoint_tmp_log}}hrwlspre_$(hostname)_mountpoint.tmp.log;cat {{mountPoint_log}}hrwls_$(hostname)_mountpoint.log >> {{mountPoint_tmp_log}}hrwlspre_$(hostname)_mountpoint.tmp.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Mount Point
+  shell: echo "host:"$(hostname) >> {{PostmountPoint_tmp_log}}hrwlspost_$(hostname)_mountpoint.tmp.log;cat {{PostmountPoint_log}}hrwls_$(hostname)_mountpoint.log >> {{PostmountPoint_tmp_log}}hrwlspost_$(hostname)_mountpoint.tmp.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false  

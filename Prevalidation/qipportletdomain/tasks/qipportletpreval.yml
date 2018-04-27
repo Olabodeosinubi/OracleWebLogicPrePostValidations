@@ -1,0 +1,38 @@
+---
+# Middleware SOA Prevalidation Playbook
+
+- name: Check Current OPatch Version
+  shell: echo "host:"$(hostname) >> {{OPatchVersion_log}};export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;opatch version >> {{OPatchVersion_log}}qipportlet_$(hostname)_opatchversion.log
+  
+- name: Check Current OPatch Version
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;opatch version
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Check ORACLE_HOME size
+  shell: echo "host:"$(hostname) >> {{ORAHOMEsize_log}};export ORACLE_HOME=/app/ENP/fmw1036/Domains/QIPPortletDomain;du -sh $ORACLE_HOME >> {{ORAHOMEsize_log}}qipportlet_$(hostname)_orahomesize.log
+ 
+- name: Check ORACLE_HOME size
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Domains/QIPPortletDomain;du -sh $ORACLE_HOME
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Patch Applied
+  shell: echo "host:"$(hostname) >> {{PatchApplied_log}};export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc >> {{PatchApplied_log}}qipportlet_$(hostname)_patchapplied.log
+  
+- name: Current Patch Applied
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Common Patch Applied
+  shell: echo "host:"$(hostname) >> {{ComPatchApplied_log}};export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied >> {{ComPatchApplied_log}}qipportlet_$(hostname)_compatchapplied.log
+ 
+- name: Current Common Patch Applied
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied
+  register: ps
+
+- debug: var=ps.stdout_lines

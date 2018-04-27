@@ -1,0 +1,20 @@
+---
+# srv DOMAIN DIFF
+- name: Temp CommPatchApp
+  shell: cat {{ComPatchApplied_tmp_log}}srvpre_*_compatchapplied.tmp.log > {{ComPatchApplied_tmp_log}}srvpre_compatchapplied.fnl.log;cat {{PostComPatchApplied_tmp_log}}srvpost_*_compatchapplied.tmp.log > {{PostComPatchApplied_tmp_log}}srvpost_compatchapplied.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp Weblogic Version
+  shell: cat {{WeblogicVersion_tmp_log}}srvpre_*_weblogicversion.tmp.log > {{WeblogicVersion_tmp_log}}srvpre_weblogicversion.fnl.log;cat {{PostWeblogicVersion_tmp_log}}srvpost_*_weblogicversion.tmp.log > {{PostWeblogicVersion_tmp_log}}srvpost_weblogicversion.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Temp Mount Point
+  shell: cat {{mountPoint_tmp_log}}srvpre_*_mountpoint.tmp.log > {{mountPoint_tmp_log}}srvpre_mountpoint.fnl.log;cat {{PostmountPoint_tmp_log}}srvpost_*_mountpoint.tmp.log > {{PostmountPoint_tmp_log}}srvpost_mountpoint.fnl.log
+  become: true
+  ignore_errors: yes  
+  changed_when: false
+  

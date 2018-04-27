@@ -1,0 +1,5 @@
+---
+# tasks file for bpeldomain
+- import_tasks: postweblogic11g.yml 
+- import_tasks: bpelpostval.yml
+

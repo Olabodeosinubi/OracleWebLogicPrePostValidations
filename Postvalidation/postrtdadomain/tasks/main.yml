@@ -1,0 +1,5 @@
+---
+# tasks file for dadomain
+- import_tasks: postweblogic11g.yml 
+- import_tasks: rtdapostval.yml
+

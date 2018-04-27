@@ -1,0 +1,88 @@
+---
+# Middleware WCP Postvalidation Playbook
+  
+- name: Check Current OPatch Version (WCP)
+  shell: echo "host:"$(hostname) >> {{PostOPatchVersion_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch version >> {{PostOPatchVersion_log}}cpwc_$(hostname)_opatchversion.log
+  
+- name: Check Current OPatch Version (WCP)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch version
+  register: ps
+  
+- debug: var=ps.stdout_lines
+
+- name: Check ORACLE_HOME size (WCP)
+  shell: echo "host:"$(hostname) >> {{PostORAHOMEsize_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;du -sh $ORACLE_HOME >> {{PostORAHOMEsize_log}}cpwc_$(hostname)_orahomesize.log
+
+- name: Check ORACLE_HOME size (WCP)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;du -sh $ORACLE_HOME
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Current Patch Applied (WCP)
+  shell: echo "host:"$(hostname) >> {{PostPatchApplied_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc >> {{PostPatchApplied_log}}cpwc_$(hostname)_patchapplied.log
+
+- name: Current Patch Applied (WCP)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/Oracle_WC1;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc $ORACLE_HOME/oraInst.loc
+  register: ps
+  
+- debug: var=ps.stdout_lines
+
+- name: Current Common Patch Applied (WCP)
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_log}};echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied >> {{PostComPatchApplied_log}}cpwc_$(hostname)_compatchapplied.log
+
+- name: Current Common Patch Applied (WCP)
+  shell: echo $(hostname) for $(date);export ORACLE_HOME=/app/ENP/fmw1036/oracle_common;export PATH=$PATH:$ORACLE_HOME/OPatch:$ORACLE_HOME/bin;$ORACLE_HOME/OPatch/opatch lsinventory |grep applied
+  register: ps
+
+- debug: var=ps.stdout_lines
+
+- name: Diff OPatch Version (CPWC)
+  shell: echo "host:"$(hostname) >> {{OPatchVersion_tmp_log}}cpwcpre_$(hostname)_opatchversion.tmp.log;grep "^OPatch Version" {{OPatchVersion_log}}cpwc_$(hostname)_opatchversion.log >> {{OPatchVersion_tmp_log}}cpwcpre_$(hostname)_opatchversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff OPatch Version (CPWC)
+  shell: echo "host:"$(hostname) >> {{PostOPatchVersion_tmp_log}}cpwcpost_$(hostname)_opatchversion.tmp.log;grep "^OPatch Version" {{PostOPatchVersion_log}}cpwc_$(hostname)_opatchversion.log >> {{PostOPatchVersion_tmp_log}}cpwcpost_$(hostname)_opatchversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false  
+  
+- name: Diff Patch Applied (CPWC)
+  shell: echo "host:"$(hostname) >> {{PatchApplied_tmp_log}}cpwcpre_$(hostname)_patchapplied.tmp.log;grep "^OUI version" {{PatchApplied_log}}cpwc_$(hostname)_patchapplied.log >> {{PatchApplied_tmp_log}}cpwcpre_$(hostname)_patchapplied.tmp.log;grep "^Unique Patch ID" {{PatchApplied_log}}cpwc_$(hostname)_patchapplied.log >> {{PatchApplied_tmp_log}}cpwcpre_$(hostname)_patchapplied.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Patch Applied (CPWC)
+  shell: echo "host:"$(hostname) >> {{PostPatchApplied_tmp_log}}cpwcpost_$(hostname)_patchapplied.tmp.log;grep "^OUI version" {{PostPatchApplied_log}}cpwc_$(hostname)_patchapplied.log >> {{PostPatchApplied_tmp_log}}cpwcpost_$(hostname)_patchapplied.tmp.log;grep "^Unique Patch ID" {{PostPatchApplied_log}}cpwc_$(hostname)_patchapplied.log >> {{PostPatchApplied_tmp_log}}cpwcpost_$(hostname)_patchapplied.tmp.log
+  ignore_errors: yes  
+  changed_when: false  
+  
+- name: Diff Common Patch Applied (CPWC)
+  shell: echo "host:"$(hostname) >> {{ComPatchApplied_tmp_log}}cpwcpre_$(hostname)_compatchapplied.tmp.log;grep "^Patch" {{ComPatchApplied_log}}cpwc_$(hostname)_compatchapplied.log >> {{ComPatchApplied_tmp_log}}cpwcpre_$(hostname)_compatchapplied.tmp.log
+  ignore_errors: yes 
+  changed_when: false
+  
+- name: Diff Common Patch Applied (CPWC)
+  shell: echo "host:"$(hostname) >> {{PostComPatchApplied_tmp_log}}cpwcpost_$(hostname)_compatchapplied.tmp.log;grep "^Patch" {{PostComPatchApplied_log}}cpwc_$(hostname)_compatchapplied.log >> {{PostComPatchApplied_tmp_log}}cpwcpost_$(hostname)_compatchapplied.tmp.log
+  ignore_errors: yes 
+  changed_when: false
+  
+- name: Diff Weblogic Version (CPWC)
+  shell: echo "host:"$(hostname) >> {{WeblogicVersion_tmp_log}}cpwcpre_$(hostname)_weblogicversion.tmp.log;grep "^WebLogic Server" {{WeblogicVersion_log}}cpwc_$(hostname)_weblogicversion.log >> {{WeblogicVersion_tmp_log}}cpwcpre_$(hostname)_weblogicversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Weblogic Version (CPWC)
+  shell: echo "host:"$(hostname) >> {{PostWeblogicVersion_tmp_log}}cpwcpost_$(hostname)_weblogicversion.tmp.log;grep "^WebLogic Server" {{PostWeblogicVersion_log}}cpwc_$(hostname)_weblogicversion.log >> {{PostWeblogicVersion_tmp_log}}cpwcpost_$(hostname)_weblogicversion.tmp.log
+  ignore_errors: yes  
+  changed_when: false  
+ 
+- name: Diff Mount Point (CPWC)
+  shell: echo "host:"$(hostname) >> {{mountPoint_tmp_log}}cpwcpre_$(hostname)_mountpoint.tmp.log;cat {{mountPoint_log}}cpwc_$(hostname)_mountpoint.log >> {{mountPoint_tmp_log}}cpwcpre_$(hostname)_mountpoint.tmp.log
+  ignore_errors: yes  
+  changed_when: false
+  
+- name: Diff Mount Point (CPWC)
+  shell: echo "host:"$(hostname) >> {{PostmountPoint_tmp_log}}cpwcpost_$(hostname)_mountpoint.tmp.log;cat {{PostmountPoint_log}}cpwc_$(hostname)_mountpoint.log >> {{PostmountPoint_tmp_log}}cpwcpost_$(hostname)_mountpoint.tmp.log
+  ignore_errors: yes  
+  changed_when: false  

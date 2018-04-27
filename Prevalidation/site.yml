@@ -1,0 +1,76 @@
+- hosts: CPSOADomain
+  become: true
+  roles:
+   - cpsoadomain
+   
+- hosts: CPWCDomain
+  become: true
+  roles:
+   - cpwcdomain
+   
+- hosts: OBIEEDomain
+  become: true
+  roles:
+   - obieedomain
+   
+- hosts: OSBDomain
+  become: true
+  roles:
+   - osbdomain
+   
+- hosts: UCMDomain
+  become: true
+  roles:
+   - ucmdomain
+
+- hosts: DADomain
+  become: true
+  roles:
+   - dadomain 
+
+- hosts: DEADomain
+  become: true
+  roles:
+   - deadomain
+
+- hosts: DDSTDomain
+  become: true
+  roles:
+   - ddstdomain
+   
+- hosts: ESPortletDomain
+  become: true
+  roles:
+   - esportletdomain
+   
+- hosts: HQRPortletDomain
+  become: true
+  roles:
+   - hqrportletdomain
+   
+- hosts: HRWLS1Domain
+  become: true
+  roles:
+   - hrwlsdomain
+   
+- hosts: QIPPorletDomain
+  become: true
+  roles:
+   - qipportletdomain
+   
+- hosts: RTDADomain
+  become: true
+  roles:
+   - rtdadomain
+   
+- hosts: SRVDomain
+  become: true
+  roles:
+   - srvdomain
+   
+- hosts: BPELDomain
+  become: true
+  roles:
+   - bpeldomain
+   
+
